@@ -1,0 +1,443 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5849B85627EDF14000D09470 /* JBConfigData.mm in Sources */ = {isa = PBXBuildFile; fileRef = 5849B85527EDF14000D09470 /* JBConfigData.mm */; };
+		5849B85927EF0DB800D09470 /* JBAudioEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5849B85827EF0DB800D09470 /* JBAudioEncoder.m */; };
+		587C11CA273036C900772583 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 587C11C9273036C900772583 /* AppDelegate.m */; };
+		587C11CD273036C900772583 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 587C11CC273036C900772583 /* ViewController.m */; };
+		587C11CF273036CE00772583 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 587C11CE273036CE00772583 /* Assets.xcassets */; };
+		587C11D2273036CE00772583 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 587C11D0273036CE00772583 /* Main.storyboard */; };
+		587C11D4273036CE00772583 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 587C11D3273036CE00772583 /* main.m */; };
+		588110D027F33FD900BD7BA2 /* JBAudioQueueCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 588110CA27F33FD900BD7BA2 /* JBAudioQueueCapture.m */; };
+		589CEE0F27E18FF200D4AB87 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 589CEE0E27E18FF200D4AB87 /* VideoToolbox.framework */; };
+		58B9625827EB53F40076EFEE /* JBCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B9624F27EB53F40076EFEE /* JBCaptureManager.m */; };
+		58B9625927EB53F40076EFEE /* JBVideoDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B9625027EB53F40076EFEE /* JBVideoDecoder.m */; };
+		58B9625A27EB53F40076EFEE /* JBVideoEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B9625127EB53F40076EFEE /* JBVideoEncoder.m */; };
+		58BE5A7E283FB3B200248D17 /* JBFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 58BE5A7C283FB3B100248D17 /* JBFileManager.m */; };
+		58BE5A7F283FB49400248D17 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5859EAB427D63A520012902D /* AVFoundation.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		5849B85427EDF14000D09470 /* JBConfigData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBConfigData.h; sourceTree = "<group>"; };
+		5849B85527EDF14000D09470 /* JBConfigData.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = JBConfigData.mm; sourceTree = "<group>"; };
+		5849B85727EF0DB700D09470 /* JBAudioEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBAudioEncoder.h; sourceTree = "<group>"; };
+		5849B85827EF0DB800D09470 /* JBAudioEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBAudioEncoder.m; sourceTree = "<group>"; };
+		584B9BE027E4B71F00A4DE59 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		584B9BE227E4B72A00A4DE59 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		5859EAB427D63A520012902D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		5859EAC527D63D700012902D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		587C11C5273036C900772583 /* JBMacAVDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JBMacAVDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		587C11C8273036C900772583 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		587C11C9273036C900772583 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		587C11CB273036C900772583 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		587C11CC273036C900772583 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		587C11CE273036CE00772583 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		587C11D1273036CE00772583 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		587C11D3273036CE00772583 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		587C11D5273036CE00772583 /* JBMacAVDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JBMacAVDemo.entitlements; sourceTree = "<group>"; };
+		588110CA27F33FD900BD7BA2 /* JBAudioQueueCapture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBAudioQueueCapture.m; sourceTree = "<group>"; };
+		588110CD27F33FD900BD7BA2 /* JBAudioQueueCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBAudioQueueCapture.h; sourceTree = "<group>"; };
+		589CEE0E27E18FF200D4AB87 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		58B9624C27EB53F40076EFEE /* JBVideoEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBVideoEncoder.h; sourceTree = "<group>"; };
+		58B9624F27EB53F40076EFEE /* JBCaptureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBCaptureManager.m; sourceTree = "<group>"; };
+		58B9625027EB53F40076EFEE /* JBVideoDecoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBVideoDecoder.m; sourceTree = "<group>"; };
+		58B9625127EB53F40076EFEE /* JBVideoEncoder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBVideoEncoder.m; sourceTree = "<group>"; };
+		58B9625527EB53F40076EFEE /* JBCaptureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBCaptureManager.h; sourceTree = "<group>"; };
+		58B9625627EB53F40076EFEE /* JBVideoDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBVideoDecoder.h; sourceTree = "<group>"; };
+		58BE5A7C283FB3B100248D17 /* JBFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBFileManager.m; sourceTree = "<group>"; };
+		58BE5A7D283FB3B100248D17 /* JBFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBFileManager.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		587C11C2273036C900772583 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				58BE5A7F283FB49400248D17 /* AVFoundation.framework in Frameworks */,
+				589CEE0F27E18FF200D4AB87 /* VideoToolbox.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		582E28962849C53A0041D543 /* Capture */ = {
+			isa = PBXGroup;
+			children = (
+				588110CD27F33FD900BD7BA2 /* JBAudioQueueCapture.h */,
+				588110CA27F33FD900BD7BA2 /* JBAudioQueueCapture.m */,
+				58B9625527EB53F40076EFEE /* JBCaptureManager.h */,
+				58B9624F27EB53F40076EFEE /* JBCaptureManager.m */,
+			);
+			path = Capture;
+			sourceTree = "<group>";
+		};
+		5859EAB327D63A510012902D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				584B9BE227E4B72A00A4DE59 /* QuartzCore.framework */,
+				584B9BE027E4B71F00A4DE59 /* OpenGL.framework */,
+				589CEE0E27E18FF200D4AB87 /* VideoToolbox.framework */,
+				5859EAB427D63A520012902D /* AVFoundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		587C11BC273036C900772583 = {
+			isa = PBXGroup;
+			children = (
+				587C11C7273036C900772583 /* JBMacAVDemo */,
+				587C11C6273036C900772583 /* Products */,
+				5859EAB327D63A510012902D /* Frameworks */,
+				58B9622C27EB4C4E0076EFEE /* Recovered References */,
+			);
+			sourceTree = "<group>";
+		};
+		587C11C6273036C900772583 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				587C11C5273036C900772583 /* JBMacAVDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		587C11C7273036C900772583 /* JBMacAVDemo */ = {
+			isa = PBXGroup;
+			children = (
+				587C11C8273036C900772583 /* AppDelegate.h */,
+				587C11C9273036C900772583 /* AppDelegate.m */,
+				587C11CE273036CE00772583 /* Assets.xcassets */,
+				582E28962849C53A0041D543 /* Capture */,
+				58B9624B27EB53F40076EFEE /* Coder */,
+				5859EAC527D63D700012902D /* Info.plist */,
+				5849B85427EDF14000D09470 /* JBConfigData.h */,
+				5849B85527EDF14000D09470 /* JBConfigData.mm */,
+				58BE5A7D283FB3B100248D17 /* JBFileManager.h */,
+				58BE5A7C283FB3B100248D17 /* JBFileManager.m */,
+				587C11D5273036CE00772583 /* JBMacAVDemo.entitlements */,
+				587C11D3273036CE00772583 /* main.m */,
+				587C11D0273036CE00772583 /* Main.storyboard */,
+				587C11CB273036C900772583 /* ViewController.h */,
+				587C11CC273036C900772583 /* ViewController.m */,
+			);
+			path = JBMacAVDemo;
+			sourceTree = "<group>";
+		};
+		58B9622C27EB4C4E0076EFEE /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		58B9624B27EB53F40076EFEE /* Coder */ = {
+			isa = PBXGroup;
+			children = (
+				58B9625627EB53F40076EFEE /* JBVideoDecoder.h */,
+				58B9625027EB53F40076EFEE /* JBVideoDecoder.m */,
+				58B9624C27EB53F40076EFEE /* JBVideoEncoder.h */,
+				58B9625127EB53F40076EFEE /* JBVideoEncoder.m */,
+				5849B85727EF0DB700D09470 /* JBAudioEncoder.h */,
+				5849B85827EF0DB800D09470 /* JBAudioEncoder.m */,
+			);
+			path = Coder;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		587C11C4273036C900772583 /* JBMacAVDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 587C11D8273036CE00772583 /* Build configuration list for PBXNativeTarget "JBMacAVDemo" */;
+			buildPhases = (
+				587C11C1273036C900772583 /* Sources */,
+				587C11C2273036C900772583 /* Frameworks */,
+				587C11C3273036C900772583 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JBMacAVDemo;
+			productName = JBMacAVDemo;
+			productReference = 587C11C5273036C900772583 /* JBMacAVDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		587C11BD273036C900772583 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1320;
+				TargetAttributes = {
+					587C11C4273036C900772583 = {
+						CreatedOnToolsVersion = 13.1;
+					};
+				};
+			};
+			buildConfigurationList = 587C11C0273036C900772583 /* Build configuration list for PBXProject "JBMacAVDemo" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 587C11BC273036C900772583;
+			productRefGroup = 587C11C6273036C900772583 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				587C11C4273036C900772583 /* JBMacAVDemo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		587C11C3273036C900772583 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				587C11CF273036CE00772583 /* Assets.xcassets in Resources */,
+				587C11D2273036CE00772583 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		587C11C1273036C900772583 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				587C11CD273036C900772583 /* ViewController.m in Sources */,
+				58B9625A27EB53F40076EFEE /* JBVideoEncoder.m in Sources */,
+				58B9625827EB53F40076EFEE /* JBCaptureManager.m in Sources */,
+				587C11D4273036CE00772583 /* main.m in Sources */,
+				588110D027F33FD900BD7BA2 /* JBAudioQueueCapture.m in Sources */,
+				58BE5A7E283FB3B200248D17 /* JBFileManager.m in Sources */,
+				5849B85627EDF14000D09470 /* JBConfigData.mm in Sources */,
+				58B9625927EB53F40076EFEE /* JBVideoDecoder.m in Sources */,
+				587C11CA273036C900772583 /* AppDelegate.m in Sources */,
+				5849B85927EF0DB800D09470 /* JBAudioEncoder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		587C11D0273036CE00772583 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				587C11D1273036CE00772583 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		587C11D6273036CE00772583 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		587C11D7273036CE00772583 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		587C11D9273036CE00772583 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = JBMacAVDemo/JBMacAVDemo.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7SHP7V4RR7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = JBMacAVDemo/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "give me 摄像头";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "microphone 使用允许";
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Jimbo.JBMacAVDemo.audio.video.com;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		587C11DA273036CE00772583 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = JBMacAVDemo/JBMacAVDemo.entitlements;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7SHP7V4RR7;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = JBMacAVDemo/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "give me 摄像头";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "microphone 使用允许";
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Jimbo.JBMacAVDemo.audio.video.com;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		587C11C0273036C900772583 /* Build configuration list for PBXProject "JBMacAVDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				587C11D6273036CE00772583 /* Debug */,
+				587C11D7273036CE00772583 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		587C11D8273036CE00772583 /* Build configuration list for PBXNativeTarget "JBMacAVDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				587C11D9273036CE00772583 /* Debug */,
+				587C11DA273036CE00772583 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 587C11BD273036C900772583 /* Project object */;
+}
