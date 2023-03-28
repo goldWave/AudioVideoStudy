@@ -275,7 +275,7 @@
     return [NSString stringWithFormat:@"%s (%i)", buffer, subtype];
 }
 
-- (void)writeData:(CVImageBufferRef)dataBuffer {
+- (void)writeYUVData:(CVImageBufferRef)dataBuffer {
     if (CVPixelBufferIsPlanar(dataBuffer)) {
         int count = CVPixelBufferGetPlaneCount(dataBuffer);
         for(int i = 0; i< count; i++) {
@@ -318,7 +318,7 @@
         [[JBFileManager shareInstance] printFFmpegLogWithYuv:fourcc dimensions:dims isCapture:YES];
     }
 
-    [self writeData:imgBuffer];
+    [self writeYUVData:imgBuffer];
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(captureOutputVideoData:)]) {
         [self.delegate captureOutputVideoData:imgBuffer];
@@ -326,9 +326,30 @@
     CVPixelBufferUnlockBaseAddress(imgBuffer, 0);
 }
 
+- (void)writePCMData:(CMSampleBufferRef)sampleBuffer {
+    size_t requiredSize = 0;
+    OSStatus status = CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(sampleBuffer, &requiredSize, NULL, 0, NULL, NULL, kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment, NULL);
+    assert(status == noErr);
+
+    AudioBufferList *bList = (AudioBufferList *)malloc(sizeof(AudioBufferList)+requiredSize);
+    CMBlockBufferRef blockBuffer = NULL;
+    
+    status = CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(sampleBuffer, NULL, bList, requiredSize, NULL, NULL, kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment, &blockBuffer);
+    assert(status == noErr);
+    
+    for(int i = 0; i< bList->mNumberBuffers; i++ ) {
+        [[JBFileManager shareInstance] writeAudioPCM:bList->mBuffers->mData buffersize:bList->mBuffers->mDataByteSize];
+    }
+    
+    free(bList);
+    if (blockBuffer) {
+        CFRelease(blockBuffer);
+    }
+}
+
 - (void)captureAudioOutput:(CMSampleBufferRef)sampleBuffer {
     static bool isAudioFirstOut = false;
-    
+
     CFRetain(sampleBuffer);
     if (!isAudioFirstOut || !self.audioConfigData) {
         isAudioFirstOut =  true;
@@ -353,7 +374,7 @@
          mBitsPerChannel = 24   //位深  24/8 == 3字节byte
          mReserved = 0
          */
-        
+
            /**
             * sampleBuffer 的大小为：4096
             * mBytesPerFrame = 4
@@ -361,6 +382,9 @@
             即每次回调采集的时间为：48000/1024 = 46.875毫秒
          * */
     }
+
+//    [self writePCMData:sampleBuffer];
+    
     
     CMBlockBufferRef dataBuffer = CMSampleBufferGetDataBuffer(sampleBuffer);
     if (!dataBuffer) {
@@ -372,10 +396,12 @@
     printErr(@"CMBlockBufferCopyDataBytes error:", status);
     
     CFRelease(sampleBuffer);
-    
     if (self.delegate && [self.delegate respondsToSelector:@selector(captureOutputAudioData:lenght:)]) {
         [self.delegate captureOutputAudioData:bufferData lenght:dataLength];
     }
+    
+
+
 }
 
 - (void)stopCapture {

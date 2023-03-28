@@ -87,7 +87,7 @@ static NSString *geth264FilePath() {
 }
 
 - (void)writeAudioPCM:(void *)bufferData buffersize:(UInt32)buffersize {
-    dispatch_async(self.fileQueue, ^{
+//    dispatch_async(self.fileQueue, ^{
         if (!self.isRunning) {
             return;
         }
@@ -96,7 +96,7 @@ static NSString *geth264FilePath() {
         }
         //其实需要考虑多线程bufferData 被释放的问题，demo不考虑
         fwrite((char *)bufferData, 1, buffersize, self.fp_pcm);
-    });
+//    });
 }
 
 - (void)stopAudioPCM {
@@ -120,7 +120,7 @@ static NSString *geth264FilePath() {
             NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
             NSString *filePath = [paths stringByAppendingPathComponent:@"audio.aac"] ;
             
-            NSString *log = [NSString stringWithFormat:@"编码的AAC文件: ffplay %@", filePath];
+            NSString *log = [NSString stringWithFormat:@"AVCapture 有问题 编码的AAC文件: ffplay %@", filePath];
             [self.commandLines addObject:log];
             [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
             BOOL creatFile = [[NSFileManager defaultManager] createFileAtPath:filePath contents:nil attributes:nil];

@@ -198,7 +198,7 @@ static NSTimeInterval getCurrentTimestamp() {
 
 - (void)sendAudioToEncoerAndFile:(void *)bufferData buffersize:(UInt32)buffersize{
     [[JBFileManager shareInstance] writeAudioPCM:bufferData buffersize:buffersize];
-    
+
     if (!self.audioEncoder) {
         //需要在audioConfigData 的asbd 确认好了，才创建解码器，不然参数有问题
         self.audioEncoder = [[JBAudioEncoder alloc] initWithData:self.audioCaptureData];
