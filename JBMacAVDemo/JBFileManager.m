@@ -325,18 +325,18 @@ static NSString *geth264FilePath() {
             break;
         case kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange:
             NSLog(@"%@ kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange -> FORMAT::NV12", logPre);
+            formatType = @"nv12";
             break;
         case kCVPixelFormatType_420YpCbCr8BiPlanarFullRange:
             NSLog(@"%@ kCVPixelFormatType_420YpCbCr8BiPlanarFullRange -> FORMAT::NV12", logPre);
-            break;
-        case kCVPixelFormatType_420YpCbCr8PlanarFullRange:
-            NSLog(@"%@ kCVPixelFormatType_420YpCbCr8PlanarFullRange -> FORMAT::420p", logPre);
+            formatType = @"nv12";
             break;
         default:
             NSLog(@"%@ FORMAT::DVF_UNKNOWN %ld", logPre, subtype);
             break;
     }
     return formatType;
+    
     /**
      https://ffmpeg.org/doxygen/3.0/ffmpeg__videotoolbox_8c_source.html
           switch (pixel_format) {
@@ -382,7 +382,7 @@ static NSString *geth264FilePath() {
 
      kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
 
-     根据表面意思，可以看出，可以分为两类：planar（平面420p）和 BiPlanar(双平面)。
+     根据表面意思，可以看出，可以分为两类：planar（平面420p）和 BiPlanar(双平面) ？  Bi代表  big-endian 大端的意思。
 
      还有一个办法区分，CVPixelBufferGetPlaneCount（pixel）获取平面数量，发现kCVPixelFormatType_420YpCbCr8Planar和kCVPixelFormatType_420YpCbCr8PlanarFullRange是三个两面，属于420p，iOS不支持。而kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange和kCVPixelFormatType_420YpCbCr8BiPlanarFullRange是两个平面。这就纠结了，到底用哪一个呢？
      */

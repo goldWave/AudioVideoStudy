@@ -182,16 +182,6 @@ static NSTimeInterval getCurrentTimestamp() {
 - (void)captureOutputVideoData:(_Nullable CVImageBufferRef)imgBuffer {
     
     CVPixelBufferRetain(imgBuffer);
-    size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imgBuffer);
-    size_t height = CVPixelBufferGetHeight(imgBuffer);
-    void *src_buf  = CVPixelBufferGetBaseAddress(imgBuffer);
-
-    size_t length = bytesPerRow * height;
-    unsigned char *newedImgBuff = (unsigned char *)malloc(length);
-    memmove(newedImgBuff, src_buf, length);
-
-    [[JBFileManager shareInstance] writeVideoYuv:newedImgBuff buffersize:(UInt32)length];
-    
     [self.videoEncoder encodeThePixelBuffer:imgBuffer];
     CVPixelBufferRelease(imgBuffer);
 }

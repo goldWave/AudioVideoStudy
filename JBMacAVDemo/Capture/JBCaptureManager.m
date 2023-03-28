@@ -269,6 +269,36 @@
         [self captureAudioOutput:sampleBuffer];
     }
 }
++ (NSString *)getCharFourcc:(FourCharCode)subtype {
+    char buffer[5] = {0};
+    *(int *)&buffer[0] = CFSwapInt32HostToBig(subtype);
+    return [NSString stringWithFormat:@"%s (%i)", buffer, subtype];
+}
+
+- (void)writeData:(CVImageBufferRef)dataBuffer {
+    if (CVPixelBufferIsPlanar(dataBuffer)) {
+        int count = CVPixelBufferGetPlaneCount(dataBuffer);
+        for(int i = 0; i< count; i++) {
+            void *baseBuffer = CVPixelBufferGetBaseAddressOfPlane(dataBuffer, i);
+            size_t bytesPerRow = CVPixelBufferGetBytesPerRowOfPlane(dataBuffer, i);
+            size_t height = CVPixelBufferGetHeightOfPlane(dataBuffer, i);
+            size_t lenght = bytesPerRow * height;
+            
+            unsigned char *newedImgBuff = (unsigned char *)malloc(lenght);
+            memmove(newedImgBuff, baseBuffer, lenght);
+            [[JBFileManager shareInstance] writeVideoYuv:newedImgBuff buffersize:(UInt32)lenght];
+        }
+    } else {
+        size_t bytesPerRow = CVPixelBufferGetBytesPerRow(dataBuffer);
+        size_t height = CVPixelBufferGetHeight(dataBuffer);
+        size_t lenght = bytesPerRow * height;
+        void *baseBuffer = CVPixelBufferGetBaseAddress(dataBuffer);
+
+        unsigned char *newedImgBuff = (unsigned char *)malloc(lenght);
+        memmove(newedImgBuff, baseBuffer, lenght);
+        [[JBFileManager shareInstance] writeVideoYuv:newedImgBuff buffersize:(UInt32)lenght];
+    }
+}
 
 - (void)captureVideoOutput:(CMSampleBufferRef)sampleBuffer {
     static bool isVideoFirstOut = false;
@@ -284,10 +314,12 @@
         isVideoFirstOut = true;
         FourCharCode fourcc = CMFormatDescriptionGetMediaSubType(desc);
         CMVideoDimensions dims = CMVideoFormatDescriptionGetDimensions(desc);
+        NSLog(@"fourcc: %@", [[self class] getCharFourcc:fourcc]);
         [[JBFileManager shareInstance] printFFmpegLogWithYuv:fourcc dimensions:dims isCapture:YES];
     }
 
-
+    [self writeData:imgBuffer];
+    
     if (self.delegate && [self.delegate respondsToSelector:@selector(captureOutputVideoData:)]) {
         [self.delegate captureOutputVideoData:imgBuffer];
     }
