@@ -78,7 +78,26 @@
     AVCaptureDeviceDiscoverySession *deviceDiscoverySession =  [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:@[AVCaptureDeviceTypeBuiltInMicrophone] mediaType:AVMediaTypeAudio position:AVCaptureDevicePositionBack];
     devices = deviceDiscoverySession.devices;
     
-    AVCaptureDeviceInput *inputDevice = [[AVCaptureDeviceInput alloc] initWithDevice:devices[0] error:nil];
+    AVCaptureDevice *sel;
+    for(AVCaptureDevice *de in devices) {
+//        if ([de.localizedName isEqualToString:@"BlackHole 2ch"]) {
+//        if ([de.localizedName isEqualToString:@"MacBook Pro麦克风"]) {
+//        if ([de.localizedName isEqualToString:@"Loopback Audio"]) {
+//        if ([de.localizedName isEqualToString:@"SoundPusher Audio"]) {
+                if ([de.localizedName isEqualToString:@"CamStudio Audio Device"]) {
+
+            sel = de;
+            break;
+        }
+    }
+    
+    for(AVCaptureDevice *de in devices) {
+        NSLog(@"all: %@", de.localizedName);
+    }
+    
+    
+    NSLog(@"devices:%@", sel);
+    AVCaptureDeviceInput *inputDevice = [[AVCaptureDeviceInput alloc] initWithDevice:sel error:nil];
     if (!inputDevice) {
         NSLog(@"audioInputDevice inputDevice 不存在");
     }
@@ -148,9 +167,11 @@
 
     
     NSArray *devices = nil;
-    AVCaptureDeviceDiscoverySession *deviceDiscoverySession =  [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:@[AVCaptureDeviceTypeBuiltInWideAngleCamera] mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionBack];
+    AVCaptureDeviceDiscoverySession *deviceDiscoverySession =  [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:@[AVCaptureDeviceTypeBuiltInWideAngleCamera] mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionUnspecified];
     devices = deviceDiscoverySession.devices;
-    
+    for(AVCaptureDevice *de in devices) {
+        NSLog(@"video: %@", de.localizedName);
+    }
     AVCaptureDeviceInput *inputDevice = [[AVCaptureDeviceInput alloc] initWithDevice:devices[0] error:nil];
     if (!inputDevice) {
         NSLog(@"inputDevice 不存在");
@@ -309,6 +330,7 @@
     }
     
     CVPixelBufferLockBaseAddress(imgBuffer, 0);
+    
     CMFormatDescriptionRef desc = CMSampleBufferGetFormatDescription(sampleBuffer);
     if (!isVideoFirstOut || !self.videoConfigData) {
         isVideoFirstOut = true;

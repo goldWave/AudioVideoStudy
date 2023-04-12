@@ -167,6 +167,11 @@ void didCompressionOutputH264Callback(void * CM_NULLABLE outputCallbackRefCon,vo
         NSLog(@"didCompressionOutputH264Callback - err");
         return;
     }
+    
+    if (infoFlags == kVTEncodeInfo_FrameDropped) {
+        NSLog(@"kVTEncodeInfo_FrameDropped - ignore");
+        return;
+    }
     if (!CMSampleBufferDataIsReady(sampleBuffer)) {
         NSLog(@"didCompressionOutputH264Callback data not readly");
         return;
@@ -232,6 +237,7 @@ void didCompressionOutputH264Callback(void * CM_NULLABLE outputCallbackRefCon,vo
         
         while(bufferOffset < totalLength - AVCHeaderLength) {
             uint32_t NALUnitLength =  0;
+            // first four character is NALUnit length
             memcpy(&NALUnitLength, dataPointer+bufferOffset, AVCHeaderLength);
             
             //从大端模式 -》 系统端模式（Mac系统是小端）
@@ -250,7 +256,7 @@ void didCompressionOutputH264Callback(void * CM_NULLABLE outputCallbackRefCon,vo
 }
 
 static const char bytes[] = "\x00\x00\x00\x01";
-
+//fileprivate var NALUHeader: [UInt8] = [0, 0, 0, 1] 应该是这样
 //首先将数据写入sps pps
 - (void)writeFileHeaderWithSpsPps:(NSData *)sps pps:(NSData *)pps {
     //写入之前（起始位）
@@ -262,6 +268,8 @@ static const char bytes[] = "\x00\x00\x00\x01";
     //    [self.fileHandle writeData:bytesHeader];
     //    [self.fileHandle writeData:pps];
     NSMutableData *spsData = [NSMutableData dataWithData:bytesHeader];
+//    let headerData: NSData = NSData(bytes: NALUHeader, length: NALUHeader.count)
+
     [spsData appendData:sps];
     
     NSMutableData *ppsData = [NSMutableData dataWithData:bytesHeader];
