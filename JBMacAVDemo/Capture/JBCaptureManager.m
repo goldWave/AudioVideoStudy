@@ -84,7 +84,8 @@
 //        if ([de.localizedName isEqualToString:@"MacBook Pro麦克风"]) {
 //        if ([de.localizedName isEqualToString:@"Loopback Audio"]) {
 //        if ([de.localizedName isEqualToString:@"SoundPusher Audio"]) {
-                if ([de.localizedName isEqualToString:@"CamStudio Audio Device"]) {
+//        if ([de.localizedName isEqualToString:@"PRISM Cam Audio"]) {
+                if ([de.localizedName isEqualToString:@"外置麦克风"]) {
 
             sel = de;
             break;
@@ -100,6 +101,7 @@
     AVCaptureDeviceInput *inputDevice = [[AVCaptureDeviceInput alloc] initWithDevice:sel error:nil];
     if (!inputDevice) {
         NSLog(@"audioInputDevice inputDevice 不存在");
+        return;
     }
     AudioStreamBasicDescription deviceASBD = *CMAudioFormatDescriptionGetStreamBasicDescription(inputDevice.device.activeFormat.formatDescription);
     NSLog(@"音频采集设备原始输入的音频格式");
@@ -320,7 +322,9 @@
         [[JBFileManager shareInstance] writeVideoYuv:newedImgBuff buffersize:(UInt32)lenght];
     }
 }
-
+#define MILLI_TIMESCALE 1000
+#define MICRO_TIMESCALE (MILLI_TIMESCALE * 1000)
+#define NANO_100_TIMESCALE (MICRO_TIMESCALE * 10)
 - (void)captureVideoOutput:(CMSampleBufferRef)sampleBuffer {
     static bool isVideoFirstOut = false;
     

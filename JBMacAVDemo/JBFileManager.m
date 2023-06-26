@@ -2,6 +2,7 @@
 
 @interface JBFileManager()
 @property (nonatomic) FILE *fp_pcm;
+@property (nonatomic) FILE *fp_pcm2;
 @property (nonatomic) FILE *fp_yuv;
 @property (nonatomic) FILE *fp_yuv2;
 
@@ -27,6 +28,11 @@
 static NSString *getPcmFilePath() {
     NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *audioFile = [paths stringByAppendingPathComponent:@"pcm_44k.pcm"] ;
+    return audioFile;
+}
+static NSString *getPcmFilePath2() {
+    NSString *paths = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *audioFile = [paths stringByAppendingPathComponent:@"pcm_44k_2.pcm"] ;
     return audioFile;
 }
 static NSString *getyuvFilePath() {
@@ -99,14 +105,36 @@ static NSString *geth264FilePath() {
 //    });
 }
 
-- (void)stopAudioPCM {
-    dispatch_async(self.fileQueue, ^{
-        if (!self.fp_pcm) {
+- (void)writeAudioPCM2:(void *)bufferData buffersize:(UInt32)buffersize {
+//    dispatch_async(self.fileQueue, ^{
+        if (!self.isRunning) {
             return;
         }
-        fclose(self.fp_pcm);
-        self.fp_pcm = NULL;
-    });
+        if (self.fp_pcm2 == NULL) {
+            self.fp_pcm2 = fopen([getPcmFilePath2() UTF8String], "wb++");
+        }
+        //其实需要考虑多线程bufferData 被释放的问题，demo不考虑
+        fwrite((char *)bufferData, 1, buffersize, self.fp_pcm2);
+//    });
+}
+
+
+- (void)stopAudioPCM {
+//    dispatch_async(self.fileQueue, ^{
+        if (self.fp_pcm) {
+            fclose(self.fp_pcm);
+            self.fp_pcm = NULL;
+        }
+    [self stopAudioPCM2];
+//    });
+}
+- (void)stopAudioPCM2 {
+//    dispatch_async(self.fileQueue, ^{
+    if (self.fp_pcm2) {
+        fclose(self.fp_pcm2);
+        self.fp_pcm2 = NULL;
+    }
+//    });
 }
 
 

@@ -13,6 +13,7 @@
 #import "JBAudioEncoder.h"
 #import "JBAudioQueueCapture.h"
 #import "JBFileManager.h"
+#import <AVFoundation/AVAudioConverter.h>
 
 @interface ViewController () <JBCaptureDelegate, JBVideoDecoderDelegate, JBVideoEncoderDelegate, JBAudioEncoderDelegate, JBAudioQueueCaptureDelegate>
 @property (weak) IBOutlet NSView *captureView;
@@ -45,6 +46,7 @@
 @property(nonatomic, assign) int  encodeIndex;
 @property (weak) IBOutlet NSView *decodeBgView;
 
+@property (nonatomic, strong) AVAudioConverter *audioConverter;
 @end
 
 
@@ -186,6 +188,27 @@ static NSTimeInterval getCurrentTimestamp() {
     CVPixelBufferRelease(imgBuffer);
 }
 
+- (void)convertAudioData:(void *)bufferData buffersize:(UInt32)buffersize {
+    AudioBuffer buf = {
+        .mNumberChannels = 1,
+        .mDataByteSize = buffersize,
+        .mData = bufferData
+    };
+    AudioBufferList bl = {
+        .mNumberBuffers = 1,
+        bl.mBuffers[0] = buf
+    };
+    AVAudioPCMBuffer *inPcmBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:self.audioConverter.inputFormat bufferListNoCopy:&bl deallocator:nil];
+    
+    AVAudioFrameCount resampledFrameSize = buffersize  * 2;
+    AVAudioPCMBuffer *outputBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:self.audioConverter.outputFormat frameCapacity:resampledFrameSize];
+    NSError *resamplingError = nil;
+   bool issuc = [self.audioConverter convertToBuffer:outputBuffer fromBuffer:inPcmBuffer error:&resamplingError];
+    
+    for(int i = 0; i< outputBuffer.audioBufferList->mNumberBuffers; i++ ) {
+        [[JBFileManager shareInstance] writeAudioPCM2:outputBuffer.audioBufferList->mBuffers->mData buffersize:outputBuffer.audioBufferList->mBuffers->mDataByteSize];
+    }
+}
 
 #pragma mark - audio queue capture delegate  音频采集
 
@@ -198,7 +221,7 @@ static NSTimeInterval getCurrentTimestamp() {
 
 - (void)sendAudioToEncoerAndFile:(void *)bufferData buffersize:(UInt32)buffersize{
     [[JBFileManager shareInstance] writeAudioPCM:bufferData buffersize:buffersize];
-
+//    [self convertAudioData:bufferData buffersize:buffersize];
     if (!self.audioEncoder) {
         //需要在audioConfigData 的asbd 确认好了，才创建解码器，不然参数有问题
         self.audioEncoder = [[JBAudioEncoder alloc] initWithData:self.audioCaptureData];
@@ -395,4 +418,30 @@ static NSTimeInterval getCurrentTimestamp() {
     return _videoDecoder;
 }
 
+- (AVAudioConverter *)audioConverter {
+    if (_audioConverter) {
+        return  _audioConverter;
+    }
+    AudioStreamBasicDescription inAsbd = self.audioCaptureData.mASBD;
+    AVAudioFormat *inFormat = [[AVAudioFormat alloc] initWithStreamDescription:&inAsbd];
+    
+    AudioStreamBasicDescription outAsbd = {0};
+    outAsbd.mSampleRate = 48000;
+    outAsbd.mFormatID = 1819304813;
+    outAsbd.mFormatFlags = 9;
+    outAsbd.mBytesPerPacket = 8;
+    outAsbd.mFramesPerPacket = 1;
+    outAsbd.mBytesPerFrame = 8;
+    outAsbd.mChannelsPerFrame = 2;
+    outAsbd.mBitsPerChannel = 32;
+    outAsbd.mReserved = 0;
+    AVAudioFormat *outFormat = [[AVAudioFormat alloc] initWithStreamDescription:&outAsbd];
+    NSLog(@"convert asbd");
+    [[JBFileManager shareInstance] printASBD:outAsbd];
+//    AVAudioFormat *outputFormat = [[AVAudioFormat alloc] initWithCommonFormat:AVAudioPCMFormatInt16 sampleRate:16000 channels:1 interleaved:false];
+
+    
+    _audioConverter = [[AVAudioConverter alloc] initFromFormat:inFormat toFormat:outFormat];
+    return _audioConverter;
+}
 @end

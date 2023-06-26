@@ -22,7 +22,9 @@
 
 - (void)writeAudioPCM:(CMSampleBufferRef)sampleBuffer;
 - (void)writeAudioPCM:(void *)bufferData buffersize:(UInt32)buffersize;
+- (void)writeAudioPCM2:(void *)bufferData buffersize:(UInt32)buffersize;
 - (void)stopAudioPCM;
+- (void)stopAudioPCM2;
 
 - (void)writeAudioAAC:(NSData *)data;
 - (void)stopAudioAAC;
