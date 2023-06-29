@@ -14,8 +14,9 @@
 #import "JBAudioQueueCapture.h"
 #import "JBFileManager.h"
 #import <AVFoundation/AVAudioConverter.h>
+#import "JBAudioUnitCapture.h"
 
-@interface ViewController () <JBCaptureDelegate, JBVideoDecoderDelegate, JBVideoEncoderDelegate, JBAudioEncoderDelegate, JBAudioQueueCaptureDelegate>
+@interface ViewController () <JBCaptureDelegate, JBVideoDecoderDelegate, JBVideoEncoderDelegate, JBAudioEncoderDelegate, JBAudioQueueCaptureDelegate, JBAudioUnitCaptureDelegate>
 @property (weak) IBOutlet NSView *captureView;
 @property (weak) IBOutlet NSButton *startBtn;
 
@@ -37,7 +38,7 @@
 @property (nonatomic, strong) NSTimer *timer;
 @property (weak) IBOutlet NSTextField *timeLabel;
 
-@property(nonatomic, assign) bool isAudioQueueCapture; //YES： audio queue 捕获音频，  NO：AVCaptureSession 捕获音频
+@property(nonatomic, assign) JBAudioCapture audioCaptureType;
 
 @property (nonatomic, strong) JBConfigData *audioCaptureData;
 @property (weak) IBOutlet NSPopUpButton *audioTypeBtn;
@@ -73,7 +74,8 @@ static NSTimeInterval getCurrentTimestamp() {
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillTerminate) name:NSApplicationWillTerminateNotification object:nil];
     
-    [self.audioTypeBtn selectItemAtIndex:1];
+    [self.audioTypeBtn selectItemAtIndex:2];
+    [self.selectTypeBtn selectItemAtIndex:1];
     self.captureType =  (JBCaptureType)self.selectTypeBtn.indexOfSelectedItem;
     [self checkAuthorized];
 }
@@ -126,10 +128,14 @@ static NSTimeInterval getCurrentTimestamp() {
         [self checkAuthorized];
         //判断是否  进行 音频和视频的采集
         //如果要采集音频， 判断是用 audio queue 采集， 还是AVCaptureSession 采集
-        self.isAudioQueueCapture = self.audioTypeBtn.indexOfSelectedItem == 0;
+        self.audioCaptureType = (JBAudioCapture)self.audioTypeBtn.indexOfSelectedItem;
+
         self.captureType = (JBCaptureType)self.selectTypeBtn.indexOfSelectedItem;
-        
-        if (!self.isAudioQueueCapture) {
+        if (self.captureType == JBCaptureTypeVideo || self.captureType == JBCaptureTypeUnknown) {
+            self.audioCaptureType = JBAudioCaptureNone; //只采集视频就不需要音频
+        }
+            
+        if (self.audioCaptureType == JBAudioCaptureAVFoundation) {
             self.avCaptureSessionType = self.captureType;
         } else {
             //音频不是由 avcapturesession 负责
@@ -146,11 +152,15 @@ static NSTimeInterval getCurrentTimestamp() {
         }];
         [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
         
-        if (self.isAudioQueueCapture && [self isConatainCaptureAudio])
-        {
+       
+        if (self.audioCaptureType == JBAudioCaptureAudioQueue) {
             //audio queue 采集音频
             [[JBAudioQueueCapture shareInstance] startAudioCapture];
             [JBAudioQueueCapture shareInstance].delegate = self;
+        }else if (self.audioCaptureType == JBAudioCaptureAudioUnit) {
+            //audio unit 采集音频
+            [[JBAudioUnitCapture shareInstance] startAudioCapture];
+            [JBAudioUnitCapture shareInstance].delegate = self;
         }
         
         if (self.avCaptureSessionType != JBCaptureTypeUnknown) {
@@ -203,7 +213,7 @@ static NSTimeInterval getCurrentTimestamp() {
     AVAudioFrameCount resampledFrameSize = buffersize  * 2;
     AVAudioPCMBuffer *outputBuffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:self.audioConverter.outputFormat frameCapacity:resampledFrameSize];
     NSError *resamplingError = nil;
-   bool issuc = [self.audioConverter convertToBuffer:outputBuffer fromBuffer:inPcmBuffer error:&resamplingError];
+    bool isSucceed = [self.audioConverter convertToBuffer:outputBuffer fromBuffer:inPcmBuffer error:&resamplingError];
     
     for(int i = 0; i< outputBuffer.audioBufferList->mNumberBuffers; i++ ) {
         [[JBFileManager shareInstance] writeAudioPCM2:outputBuffer.audioBufferList->mBuffers->mData buffersize:outputBuffer.audioBufferList->mBuffers->mDataByteSize];

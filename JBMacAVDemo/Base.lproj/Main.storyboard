@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -777,7 +778,7 @@
                                 </customSpacing>
                             </stackView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VjV-1D-j3A">
-                                <rect key="frame" x="13" y="13" width="128" height="32"/>
+                                <rect key="frame" x="13" y="13" width="127" height="32"/>
                                 <buttonCell key="cell" type="push" title="开始采集并编码" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="CdX-bn-Mmt">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -801,7 +802,7 @@
                                 </popUpButtonCell>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Z7-NL-m0w">
-                                <rect key="frame" x="182" y="22" width="65" height="16"/>
+                                <rect key="frame" x="181" y="22" width="65" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="00:00::00" id="auW-6P-0dX">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -809,14 +810,15 @@
                                 </textFieldCell>
                             </textField>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hcg-Sj-dJk">
-                                <rect key="frame" x="181" y="56" width="244" height="25"/>
-                                <popUpButtonCell key="cell" type="push" title="音频采集方式：Audio queue " bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="w5P-aR-CRn" id="fSb-N7-fpx">
+                                <rect key="frame" x="180" y="56" width="244" height="25"/>
+                                <popUpButtonCell key="cell" type="push" title="音频采集方式：AVCaptureSession" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="UTx-iw-HjR" id="fSb-N7-fpx">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="kBG-KB-Z2o">
                                         <items>
-                                            <menuItem title="音频采集方式：Audio queue " state="on" id="w5P-aR-CRn"/>
                                             <menuItem title="音频采集方式：AVCaptureSession" id="UTx-iw-HjR"/>
+                                            <menuItem title="音频采集方式：Audio queue " state="on" id="w5P-aR-CRn"/>
+                                            <menuItem title="音频采集方式：Audio Unit" id="kB0-UP-2D7"/>
                                         </items>
                                     </menu>
                                 </popUpButtonCell>
@@ -849,7 +851,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-4331" y="886"/>
+            <point key="canvasLocation" x="75" y="840"/>
         </scene>
     </scenes>
 </document>

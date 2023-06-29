@@ -15,6 +15,7 @@
 		587C11D2273036CE00772583 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 587C11D0273036CE00772583 /* Main.storyboard */; };
 		587C11D4273036CE00772583 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 587C11D3273036CE00772583 /* main.m */; };
 		588110D027F33FD900BD7BA2 /* JBAudioQueueCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 588110CA27F33FD900BD7BA2 /* JBAudioQueueCapture.m */; };
+		5881D5702A49B8D40097E744 /* JBAudioUnitCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 5881D56F2A49B8D40097E744 /* JBAudioUnitCapture.m */; };
 		589CEE0F27E18FF200D4AB87 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 589CEE0E27E18FF200D4AB87 /* VideoToolbox.framework */; };
 		58B9625827EB53F40076EFEE /* JBCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B9624F27EB53F40076EFEE /* JBCaptureManager.m */; };
 		58B9625927EB53F40076EFEE /* JBVideoDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B9625027EB53F40076EFEE /* JBVideoDecoder.m */; };
@@ -43,6 +44,8 @@
 		587C11D5273036CE00772583 /* JBMacAVDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JBMacAVDemo.entitlements; sourceTree = "<group>"; };
 		588110CA27F33FD900BD7BA2 /* JBAudioQueueCapture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBAudioQueueCapture.m; sourceTree = "<group>"; };
 		588110CD27F33FD900BD7BA2 /* JBAudioQueueCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBAudioQueueCapture.h; sourceTree = "<group>"; };
+		5881D56E2A49B8D40097E744 /* JBAudioUnitCapture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JBAudioUnitCapture.h; sourceTree = "<group>"; };
+		5881D56F2A49B8D40097E744 /* JBAudioUnitCapture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JBAudioUnitCapture.m; sourceTree = "<group>"; };
 		589CEE0E27E18FF200D4AB87 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		58B9624C27EB53F40076EFEE /* JBVideoEncoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JBVideoEncoder.h; sourceTree = "<group>"; };
 		58B9624F27EB53F40076EFEE /* JBCaptureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JBCaptureManager.m; sourceTree = "<group>"; };
@@ -72,6 +75,8 @@
 			children = (
 				588110CD27F33FD900BD7BA2 /* JBAudioQueueCapture.h */,
 				588110CA27F33FD900BD7BA2 /* JBAudioQueueCapture.m */,
+				5881D56E2A49B8D40097E744 /* JBAudioUnitCapture.h */,
+				5881D56F2A49B8D40097E744 /* JBAudioUnitCapture.m */,
 				58B9625527EB53F40076EFEE /* JBCaptureManager.h */,
 				58B9624F27EB53F40076EFEE /* JBCaptureManager.m */,
 			);
@@ -176,7 +181,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastUpgradeCheck = 1320;
+				LastUpgradeCheck = 1410;
 				TargetAttributes = {
 					587C11C4273036C900772583 = {
 						CreatedOnToolsVersion = 13.1;
@@ -219,6 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				587C11CD273036C900772583 /* ViewController.m in Sources */,
+				5881D5702A49B8D40097E744 /* JBAudioUnitCapture.m in Sources */,
 				58B9625A27EB53F40076EFEE /* JBVideoEncoder.m in Sources */,
 				58B9625827EB53F40076EFEE /* JBCaptureManager.m in Sources */,
 				587C11D4273036CE00772583 /* main.m in Sources */,
@@ -279,6 +285,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -338,6 +345,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -362,11 +370,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = JBMacAVDemo/JBMacAVDemo.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7SHP7V4RR7;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = K9UP278937;
 				ENABLE_HARDENED_RUNTIME = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = JBMacAVDemo/Info.plist;
@@ -380,8 +389,9 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Jimbo.JBMacAVDemo.audio.video.com;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prism.prismlive.test.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
 			name = Debug;
@@ -392,11 +402,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = JBMacAVDemo/JBMacAVDemo.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 7SHP7V4RR7;
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_TEAM = K9UP278937;
 				ENABLE_HARDENED_RUNTIME = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = JBMacAVDemo/Info.plist;
@@ -410,8 +421,9 @@
 					"@executable_path/../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = Jimbo.JBMacAVDemo.audio.video.com;
+				PRODUCT_BUNDLE_IDENTIFIER = com.prism.prismlive.test.demo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
 			name = Release;

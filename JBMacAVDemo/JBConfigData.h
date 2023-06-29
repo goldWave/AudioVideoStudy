@@ -20,6 +20,13 @@ typedef NS_ENUM(int, JBCaptureType) {
     JBCaptureTypeUnknown
 };
 
+typedef NS_ENUM(int, JBAudioCapture) {
+    JBAudioCaptureAVFoundation = 0,
+    JBAudioCaptureAudioQueue,
+    JBAudioCaptureAudioUnit,
+    JBAudioCaptureNone
+};
+
 struct AudioStreamBasicDescription;
 
 
