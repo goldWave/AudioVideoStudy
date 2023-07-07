@@ -342,6 +342,12 @@
         CMVideoDimensions dims = CMVideoFormatDescriptionGetDimensions(desc);
         NSLog(@"fourcc: %@", [[self class] getCharFourcc:fourcc]);
         [[JBFileManager shareInstance] printFFmpegLogWithYuv:fourcc dimensions:dims isCapture:YES];
+        
+        
+        CFDictionaryRef dicRef = CVPixelBufferCopyCreationAttributes(imgBuffer);
+        NSDictionary *dic = (__bridge NSDictionary *)dicRef;
+        NSLog(@"-----%@", dic);
+        CFRelease(dicRef);
     }
 
     [self writeYUVData:imgBuffer];
