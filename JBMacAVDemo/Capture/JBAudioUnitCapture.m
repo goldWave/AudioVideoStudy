@@ -77,16 +77,16 @@ static OSStatus JBAURenderCallback(void *                            inRefCon,
     // -10876 kAudioUnitErr_NoConnection
     OSStatus status = AudioUnitRender(captureCls->_audioUnit, ioActionFlags, inTimeStamp, inBusNumber, inNumberFrames, captureCls->_bufList);
     printErr(@"AudioUnitRender error:", status);
-    for(int i = 0; i< captureCls->_bufList->mNumberBuffers; i++ ) {
-        [[JBFileManager shareInstance] writeAudioPCM:captureCls->_bufList->mBuffers->mData buffersize:captureCls->_bufList->mBuffers->mDataByteSize];
-    }
+//    for(int i = 0; i< captureCls->_bufList->mNumberBuffers; i++ ) {
+//        [[JBFileManager shareInstance] writeAudioPCM:captureCls->_bufList->mBuffers->mData buffersize:captureCls->_bufList->mBuffers->mDataByteSize];
+//    }
     
-    if (ioData) {
-        NSLog(@"JBAURenderCallback enter");
-        for(int i = 0; i< ioData->mNumberBuffers; i++ ) {
-            [[JBFileManager shareInstance] writeAudioPCM:ioData->mBuffers->mData buffersize:ioData->mBuffers->mDataByteSize];
-        }
-    }
+//    if (ioData) {
+//        NSLog(@"JBAURenderCallback enter");
+//        for(int i = 0; i< ioData->mNumberBuffers; i++ ) {
+//            [[JBFileManager shareInstance] writeAudioPCM:ioData->mBuffers->mData buffersize:ioData->mBuffers->mDataByteSize];
+//        }
+//    }
     return 0;
 }
 
@@ -161,12 +161,12 @@ static OSStatus JBAURenderCallback(void *                            inRefCon,
     status =AudioUnitSetProperty(_audioUnit, kAudioOutputUnitProperty_EnableIO, kAudioUnitScope_Output, K_OUTPUT_BUS, &enable_output, sizeof(enable_output));
     printErr(@"kAudioOutputUnitProperty_EnableIO kAudioUnitScope_Output error:", status);
 
-    AudioStreamBasicDescription asbd1 = {0};
-    UInt32  size1=sizeof(asbd1);
-    status = AudioUnitGetProperty(_audioUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, K_INPUT_BUS, &asbd1, &size1);
-    printErr(@"AudioUnitGetProperty size error:", status);
-    [[JBFileManager shareInstance] printASBD:asbd1];
-    [[JBFileManager shareInstance] prisnFFmpegLogWithASBD:asbd1 preLog:@"原始音频："];
+//    AudioStreamBasicDescription asbd1 = {0};
+//    UInt32  size1=sizeof(asbd1);
+//    status = AudioUnitGetProperty(_audioUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, K_INPUT_BUS, &asbd1, &size1);
+//    printErr(@"AudioUnitGetProperty size error:", status);
+//    [[JBFileManager shareInstance] printASBD:asbd1];
+//    [[JBFileManager shareInstance] prisnFFmpegLogWithASBD:asbd1 preLog:@"原始音频："];
     
     
     
@@ -190,7 +190,8 @@ static OSStatus JBAURenderCallback(void *                            inRefCon,
     AURenderCallbackStruct callback;
     callback.inputProc = JBAURenderCallback;
     callback.inputProcRefCon = (__bridge void *)self;
-    status = AudioUnitSetProperty(_audioUnit, kAudioOutputUnitProperty_SetInputCallback, kAudioUnitScope_Global, K_INPUT_BUS, &callback, sizeof(callback));
+//    status = AudioUnitSetProperty(_audioUnit, kAudioOutputUnitProperty_SetInputCallback, kAudioUnitScope_Global, K_INPUT_BUS, &callback, sizeof(callback));
+    status = AudioUnitSetProperty(_audioUnit, kAudioOutputUnitProperty_SetInputCallback, kAudioUnitScope_Global, 0, &callback, sizeof(callback));
     printErr(@"AudioUnitSetProperty kAudioOutputUnitProperty_SetInputCallback error:", status);
     
     UInt32 perferredBufferSize = (20 * asbd.mSampleRate) / 1000; //bytes

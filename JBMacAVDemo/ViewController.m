@@ -455,3 +455,68 @@ static NSTimeInterval getCurrentTimestamp() {
     return _audioConverter;
 }
 @end
+
+
+/**
+ 
+ #ifndef JBTEXTEDIT_H
+ #define JBTEXTEDIT_H
+
+ #include <QPlainTextEdit>
+ #include <QMouseEvent>
+ #include <QDebug>
+ #include <qapplication.h>
+
+ class JBTextEdit : public QPlainTextEdit
+ {
+     Q_OBJECT
+
+ private:
+     QString clickedAnchor;
+
+ public:
+     explicit JBTextEdit(QWidget *parent = nullptr);
+
+     void mouseMoveEvent(QMouseEvent *e) {
+         qDebug() << "---str: " << anchorAt(e->pos());
+
+         if (anchorAt(e->pos()).isEmpty()) {
+ //            ->viewport()->setCursor(Qt::BlankCursor);
+
+ //             setCursor(Qt::ArrowCursor);
+             viewport()->setCursor(Qt::CrossCursor);
+         } else {
+             viewport()->setCursor(Qt::BlankCursor);
+         }
+
+         QPlainTextEdit::mouseMoveEvent(e);
+     }
+
+
+     void mousePressEvent(QMouseEvent *e)
+        {
+            clickedAnchor = (e->button() & Qt::LeftButton) ? anchorAt(e->pos()) : QString();
+            qDebug() << "---clickedAnchor press: " << clickedAnchor;
+ //           QApplication.setOverrideCursor(Qt.PointingHandCursor);
+            QPlainTextEdit::mousePressEvent(e);
+        }
+
+        void mouseReleaseEvent(QMouseEvent *e)
+        {
+            if (e->button() & Qt::LeftButton && !clickedAnchor.isEmpty() &&
+                anchorAt(e->pos()) == clickedAnchor)
+            {
+                qDebug() << "---str release : " << clickedAnchor;
+                emit linkActivated(clickedAnchor);
+            }
+
+            QPlainTextEdit::mouseReleaseEvent(e);
+        }
+ signals:
+     void linkActivated(QString);
+ };
+
+ #endif // JBTEXTEDIT_H
+
+ 
+ */
