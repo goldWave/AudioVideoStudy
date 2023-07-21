@@ -85,7 +85,7 @@
 //        if ([de.localizedName isEqualToString:@"Loopback Audio"]) {
 //        if ([de.localizedName isEqualToString:@"SoundPusher Audio"]) {
 //        if ([de.localizedName isEqualToString:@"PRISM Cam Audio"]) {
-                if ([de.localizedName isEqualToString:@"外置麦克风"]) {
+                if ([de.localizedName containsString:@"麦克风"]) {
 
             sel = de;
             break;
