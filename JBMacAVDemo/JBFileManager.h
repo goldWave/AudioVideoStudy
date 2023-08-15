@@ -40,8 +40,8 @@
 - (void)stopVideoH264;
 
 //print audio
-- (void)printASBD:(AudioStreamBasicDescription)ASBD;
-- (void)print_ca_format:(UInt32)format_flags bits:(UInt32)bits;
++ (void)printASBD:(AudioStreamBasicDescription)ASBD;
++ (void)print_ca_format:(UInt32)format_flags bits:(UInt32)bits;
 - (void)prisnFFmpegLogWithASBD:(AudioStreamBasicDescription)ASBD preLog:(NSString *)preLog;
 
 //print video

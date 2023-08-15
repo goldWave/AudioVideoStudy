@@ -447,7 +447,7 @@ static NSTimeInterval getCurrentTimestamp() {
     outAsbd.mReserved = 0;
     AVAudioFormat *outFormat = [[AVAudioFormat alloc] initWithStreamDescription:&outAsbd];
     NSLog(@"convert asbd");
-    [[JBFileManager shareInstance] printASBD:outAsbd];
+    [JBFileManager  printASBD:outAsbd];
 //    AVAudioFormat *outputFormat = [[AVAudioFormat alloc] initWithCommonFormat:AVAudioPCMFormatInt16 sampleRate:16000 channels:1 interleaved:false];
 
     

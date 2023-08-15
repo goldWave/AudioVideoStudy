@@ -85,7 +85,9 @@
 //        if ([de.localizedName isEqualToString:@"Loopback Audio"]) {
 //        if ([de.localizedName isEqualToString:@"SoundPusher Audio"]) {
 //        if ([de.localizedName isEqualToString:@"PRISM Cam Audio"]) {
-                if ([de.localizedName containsString:@"麦克风"]) {
+//                if ([de.localizedName containsString:@"麦克风"]) {
+//        if ([de.localizedName containsString:@"EDIFIER W820NB"]) {
+        if ([de.localizedName containsString:@"Audio 1"]) {
 
             sel = de;
             break;
@@ -105,7 +107,7 @@
     }
     AudioStreamBasicDescription deviceASBD = *CMAudioFormatDescriptionGetStreamBasicDescription(inputDevice.device.activeFormat.formatDescription);
     NSLog(@"音频采集设备原始输入的音频格式");
-    [[JBFileManager shareInstance] printASBD:deviceASBD];
+    [JBFileManager  printASBD:deviceASBD];
     
     self.audioInputDevice = inputDevice;
     
@@ -130,7 +132,7 @@
     [self setupAudioSettings:deviceASBD];
     [self.session commitConfiguration];
     
-//    [[JBFileManager shareInstance] printASBD:self.audioOutput.audioSettings];
+//    [JBFileManager  printASBD:self.audioOutput.audioSettings];
 }
 
 - (void)setupAudioSettings:(AudioStreamBasicDescription )asbd {
@@ -389,7 +391,7 @@
         size_t size;
         AudioStreamBasicDescription mASBD = CMAudioFormatDescriptionGetFormatList(desc, &size)->mASBD;
         NSLog(@"音频采集输出的音频格式");
-        [[JBFileManager shareInstance] printASBD:mASBD];
+        [JBFileManager  printASBD:mASBD];
 
         JBConfigData *audioData = [[JBConfigData alloc] init];
         audioData.type = JBCaptureTypeAudio;

@@ -310,7 +310,7 @@ static NSString *geth264FilePath() {
     [str appendFormat:@"\tmSampleRate = %.f\n", ASBD.mSampleRate];
     [str appendFormat:@"\tmFormatID = %u(%4.4s)\n", (unsigned int)ASBD.mFormatID, (char *)&formatID4cc];
     [str appendFormat:@"\tmFormatFlags = %u\n", (unsigned int)ASBD.mFormatFlags];
-    [str appendFormat:@"\tmBytesPerPacket = %u\n", ASBD.mBytesPerPacket];
+    [str appendFormat:@"\tmBytesPerPacket = %u\t(%s)\n", ASBD.mBytesPerPacket, ASBD.mBytesPerPacket > 0 ? "CBR" : "VBR"];
     [str appendFormat:@"\tmFramesPerPacket = %u\n", ASBD.mFramesPerPacket];
     [str appendFormat:@"\tmBytesPerFrame = %u\n", ASBD.mBytesPerFrame];
     [str appendFormat:@"\tmChannelsPerFrame = %u\n", ASBD.mChannelsPerFrame];

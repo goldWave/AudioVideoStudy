@@ -69,9 +69,9 @@ static OSStatus JBAURenderCallback(void *                            inRefCon,
                                    const AudioTimeStamp *            inTimeStamp,
                                    UInt32                            inBusNumber,
                                    UInt32                            inNumberFrames,
-                                   AudioBufferList * __nullable    ioData) {
+                                   AudioBufferList * __nullable    ioData) { //ioData 可以处理耳返，将采集到声音，输出到耳机里面去
     
-    
+    NSLog(@"JBAURenderCallback enter");
     JBAudioUnitCapture * captureCls = (__bridge JBAudioUnitCapture *)inRefCon;
     
     // -10876 kAudioUnitErr_NoConnection
@@ -165,7 +165,7 @@ static OSStatus JBAURenderCallback(void *                            inRefCon,
 //    UInt32  size1=sizeof(asbd1);
 //    status = AudioUnitGetProperty(_audioUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, K_INPUT_BUS, &asbd1, &size1);
 //    printErr(@"AudioUnitGetProperty size error:", status);
-//    [[JBFileManager shareInstance] printASBD:asbd1];
+//    [JBFileManager  printASBD:asbd1];
 //    [[JBFileManager shareInstance] prisnFFmpegLogWithASBD:asbd1 preLog:@"原始音频："];
     
     
@@ -221,7 +221,7 @@ static OSStatus JBAURenderCallback(void *                            inRefCon,
     status = AudioUnitGetProperty(_audioUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Output, K_INPUT_BUS, &asbd, &size);
     printErr(@"AudioUnitGetProperty size error:", status);
 
-    [[JBFileManager shareInstance] printASBD:asbd];
+    [JBFileManager  printASBD:asbd];
     [[JBFileManager shareInstance] prisnFFmpegLogWithASBD:asbd preLog:@"原始音频："];
     
     AudioDeviceID outputDeviceID = 0;

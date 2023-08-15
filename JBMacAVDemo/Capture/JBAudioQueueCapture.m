@@ -298,7 +298,7 @@ int computeRecordBufferSize(const AudioStreamBasicDescription *format, AudioQueu
     _mDataFormat = dataFormat;
     self.audioConfigData.mASBD = _mDataFormat;
     NSLog(@"音频采集输出的音频格式");
-    [[JBFileManager shareInstance] printASBD:_mDataFormat];
+    [JBFileManager  printASBD:_mDataFormat];
 }
 
 - (void)dealloc {
