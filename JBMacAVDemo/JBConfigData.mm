@@ -2,12 +2,24 @@
 #import <objc/runtime.h>
 #import <AVFoundation/AVFoundation.h>
 
+NSString *const JBStopNotification = @"JBStopNotification";
 
 @implementation JBConfigData
 
++ (instancetype)shareInstance {
+    
+    static JBConfigData *instance;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        instance = [[JBConfigData alloc] init];
+    });
+    return instance;
+}
+
 - (instancetype)init {
     self = [super init];
-    self.mASBD = AudioStreamBasicDescription();
+    captureASBD = {0};
+    encodeASBD = {0};
     return self;
 }
 

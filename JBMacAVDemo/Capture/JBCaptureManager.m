@@ -19,10 +19,13 @@
 @property(nonatomic, strong) AVCaptureVideoDataOutput *videoOutput;
 @property(nonatomic, strong) AVCaptureAudioDataOutput *audioOutput;
 @property(nonatomic, strong) AVCaptureVideoPreviewLayer *previewLayer;
-@property(nonatomic, assign) JBCaptureType type;
-@property(nonatomic, weak) CALayer *parentLayer;
 
 @property(nonatomic, assign) int fps;
+
+@property(nonatomic, assign)  BOOL isRunning;
+
+//@property (nonatomic, strong, nullable) JBConfigData *audioConfigData;
+//@property (nonatomic, strong, nullable) JBConfigData *videoConfigData;
 
 @end
 
@@ -36,15 +39,21 @@
 
 @implementation JBCaptureManager
 
-- (instancetype)initWithType:(JBCaptureType)type parenLayerIfVideo:(CALayer *__nullable)parentLayer {
-    self = [super init];
-    if (!self) {
-        return nil;
-    }
++ (instancetype)shareInstance {
     
-    self.type = type;
-    self.parentLayer =parentLayer;
-    return self;
+    static JBCaptureManager *instance;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        instance = [[JBCaptureManager alloc] init];
+        
+    });
+    return instance;
+}
+- (instancetype)init {
+    self = [super init];
+    _isRunning = false;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stop) name:JBStopNotification object:nil];
+    return  self;
 }
 
 - (void)prepare {
@@ -68,7 +77,7 @@
 }
 
 
-- (void)startCapture {
+- (void)start {
     [self.session startRunning];
 }
 
@@ -86,8 +95,8 @@
 //        if ([de.localizedName isEqualToString:@"SoundPusher Audio"]) {
 //        if ([de.localizedName isEqualToString:@"PRISM Cam Audio"]) {
 //                if ([de.localizedName containsString:@"麦克风"]) {
-//        if ([de.localizedName containsString:@"EDIFIER W820NB"]) {
-        if ([de.localizedName containsString:@"Audio 1"]) {
+        if ([de.localizedName containsString:@"EDIFIER W820NB"]) {
+//        if ([de.localizedName containsString:@"Audio 1"]) {
 
             sel = de;
             break;
@@ -163,13 +172,6 @@
 }
 
 - (void)setupVideoCapture {
-    
-    
-    
-    self.videoConfigData = [[JBConfigData alloc] init];
-    self.videoConfigData.type = JBCaptureTypeVideo;
-
-    
     NSArray *devices = nil;
     AVCaptureDeviceDiscoverySession *deviceDiscoverySession =  [AVCaptureDeviceDiscoverySession discoverySessionWithDeviceTypes:@[AVCaptureDeviceTypeBuiltInWideAngleCamera] mediaType:AVMediaTypeVideo position:AVCaptureDevicePositionUnspecified];
     devices = deviceDiscoverySession.devices;
@@ -232,6 +234,8 @@
 
 - (void)setupPrestAndFps {
     
+    JBConfigData videoData = [JBConfigData shareInstance].captureVideo;
+    
     NSArray *types  =  self.videoOutput.availableVideoCVPixelFormatTypes;
     for (NSNumber *cType in types) {
         [[JBFileManager shareInstance] printVideoFormat:[cType integerValue] logPre:@"摄像头支持像素格式:"];
@@ -247,21 +251,21 @@
     }
     if([self.session canSetSessionPreset:AVCaptureSessionPreset640x480]) {
         self.session.sessionPreset = AVCaptureSessionPreset640x480;
-        self.videoConfigData.width = 640;
-        self.videoConfigData.height = 480;
+        [JBConfigData shareInstance].captureVideo.width = 640;
+        [JBConfigData shareInstance].captureVideo.height = 480;
     } else if([self.session canSetSessionPreset:AVCaptureSessionPreset1920x1080]) {
         self.session.sessionPreset = AVCaptureSessionPreset1920x1080;
-        self.videoConfigData.width = 1920;
-        self.videoConfigData.height = 1080;
+        [JBConfigData shareInstance].captureVideo.width = 1920;
+        [JBConfigData shareInstance].captureVideo.height = 1080;
     } else if([self.session canSetSessionPreset:AVCaptureSessionPreset1280x720]) {
         self.session.sessionPreset = AVCaptureSessionPreset1280x720;
-        self.videoConfigData.width = 1280;
-        self.videoConfigData.height = 720;
+        [JBConfigData shareInstance].captureVideo.width = 1280;
+        [JBConfigData shareInstance].captureVideo.height = 720;
     }
     //fps
     for (AVFrameRateRange *range in self.videoInputDevice.device.activeFormat.videoSupportedFrameRateRanges) {
         float ratio = range.minFrameRate/range.maxFrameRate;
-        self.videoConfigData.fps = (int)range.maxFrameRate;
+        [JBConfigData shareInstance].captureVideo.fps = (int)range.maxFrameRate;
         CMTime time = {range.minFrameDuration.value,(CMTimeScale)(range.minFrameDuration.timescale*ratio),range.minFrameDuration.flags,range.minFrameDuration.epoch};
         
         NSError *err;
@@ -438,7 +442,7 @@
 
 }
 
-- (void)stopCapture {
+- (void)stop {
     if (self.session && self.session.isRunning) {
         [self.session stopRunning];
     }

@@ -1,4 +1,5 @@
 #import "JBFileManager.h"
+#import "JBConfigData.h"
 
 @interface JBFileManager()
 @property (nonatomic) FILE *fp_pcm;
@@ -277,7 +278,7 @@ static NSString *geth264FilePath() {
         @"kAudioFormatFlagIsSignedInteger"          : @(kAudioFormatFlagIsSignedInteger),
         @"kAudioFormatFlagIsPacked"                 : @(kAudioFormatFlagIsPacked),
         @"kAudioFormatFlagIsAlignedHigh"            : @(kAudioFormatFlagIsAlignedHigh),
-        @"kAudioFormatFlagIsNonInterleaved"         : @(kAudioFormatFlagIsNonInterleaved),
+        @"kAudioFormatFlagIsNonInterleaved(plannar)": @(kAudioFormatFlagIsNonInterleaved),
         @"kAudioFormatFlagIsNonMixable"             : @(kAudioFormatFlagIsNonMixable),
         @"kAudioFormatFlagsAreAllClear"             : @(kAudioFormatFlagsAreAllClear),
         @"kLinearPCMFormatFlagsSampleFractionShift" : @(kLinearPCMFormatFlagsSampleFractionShift),
@@ -305,10 +306,9 @@ static NSString *geth264FilePath() {
     
     [[self class] print_ca_format:ASBD.mFormatFlags bits:ASBD.mBitsPerChannel];
     
-    UInt32 formatID4cc = CFSwapInt32HostToBig(ASBD.mFormatID);
     NSMutableString * str = [NSMutableString stringWithString:@"\nASBD: \n"];
     [str appendFormat:@"\tmSampleRate = %.f\n", ASBD.mSampleRate];
-    [str appendFormat:@"\tmFormatID = %u(%4.4s)\n", (unsigned int)ASBD.mFormatID, (char *)&formatID4cc];
+    [str appendFormat:@"\tmFormatID = %u(%s)\n", (unsigned int)ASBD.mFormatID, FourCC2Str(ASBD.mFormatID)];
     [str appendFormat:@"\tmFormatFlags = %u\n", (unsigned int)ASBD.mFormatFlags];
     [str appendFormat:@"\tmBytesPerPacket = %u\t(%s)\n", ASBD.mBytesPerPacket, ASBD.mBytesPerPacket > 0 ? "CBR" : "VBR"];
     [str appendFormat:@"\tmFramesPerPacket = %u\n", ASBD.mFramesPerPacket];

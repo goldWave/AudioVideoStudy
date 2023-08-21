@@ -78,12 +78,13 @@ static NSTimeInterval getCurrentTimestamp() {
     [self.selectTypeBtn selectItemAtIndex:1];
     self.captureType =  (JBCaptureType)self.selectTypeBtn.indexOfSelectedItem;
     [self checkAuthorized];
+    
+    [JBAudioQueueCapture shareInstance].delegate = self;
+    [JBAudioUnitCapture shareInstance].delegate = self;
 }
 
 - (void)appWillTerminate {
-    if (self.isRunning) {
-        [self.captureManager stopCapture];
-    }
+    [self stopCapture];
 }
 
 - (NSString *)timeFormat:(int)totalSeconds
@@ -97,12 +98,7 @@ static NSTimeInterval getCurrentTimestamp() {
 }
 
 -(void)stopCapture {
-    
-    [[JBAudioQueueCapture shareInstance] stopAudioCapture];
-    
-    if(self.captureManager) {
-        [self.captureManager stopCapture];
-    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:JBStopNotification object:nil];
 }
 
 - (BOOL)isConatainCaptureVideo {
@@ -155,11 +151,11 @@ static NSTimeInterval getCurrentTimestamp() {
        
         if (self.audioCaptureType == JBAudioCaptureAudioQueue) {
             //audio queue 采集音频
-            [[JBAudioQueueCapture shareInstance] startAudioCapture];
+            [[JBAudioQueueCapture shareInstance] start];
             [JBAudioQueueCapture shareInstance].delegate = self;
         }else if (self.audioCaptureType == JBAudioCaptureAudioUnit) {
             //audio unit 采集音频
-            [[JBAudioUnitCapture shareInstance] startAudioCapture];
+            [[JBAudioUnitCapture shareInstance] start];
             [JBAudioUnitCapture shareInstance].delegate = self;
         }
         

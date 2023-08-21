@@ -20,7 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JBAudioEncoder : NSObject
 
-- (instancetype)initWithData:(JBConfigData *)data;
++ (instancetype)shareInstance;
+//- (void)start;
 
 //- (void)startEncoder:(CMSampleBufferRef )sampleBuffer;
 - (void)startEncoder:(void *)bufferData buffersize:(UInt32)buffersize;

@@ -30,43 +30,44 @@ typedef struct JBConverterInfo {
 
 
 @property(nonatomic, assign)  UInt32 outputBufferSize;
-@property (nonatomic, strong) JBConfigData *configData;
-
 @property (nonatomic, assign) uint8_t *pcmBuffer;
 @property (nonatomic, assign) size_t pcmBufferSize;
+@property(nonatomic, assign)  BOOL isRunning;
 
 @end
  
 @implementation JBAudioEncoder
 
-- (instancetype)initWithData:(JBConfigData *)data {
-    self = [super init];
-    if (self) {
-        self.configData = data;
-        NSLog(@"JBAudioEncoder initWithData");
-        self.encoderQueue = dispatch_queue_create("encode audio queue jimbo", DISPATCH_QUEUE_SERIAL);
-        self.callbackQueue = dispatch_queue_create("encode audio callback queue jimbo", DISPATCH_QUEUE_SERIAL);
-        m_audioConverter = NULL;
-        self.pcmBufferSize = 0;
-        self.pcmBuffer = NULL;
-    }
-    return self;
+
++ (instancetype)shareInstance {
+    
+    static JBAudioEncoder *instance;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        instance = [[JBAudioEncoder alloc] init];
+ 
+    });
+    return instance;
 }
 
-void checkError(OSStatus status, NSString *logStr) {
-    if (status == noErr) {
-        return;
-    }
-    NSString *s = [NSString stringWithCString:__FILE__ encoding:NSUTF8StringEncoding];
-    NSString *file =  [[s componentsSeparatedByString:@"/"] lastObject];
-    NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
-    NSLog(@"[%@] %@ : %i err:%@", file ,logStr, (int)status, error);
+- (instancetype)init {
+    self = [super init];
+    NSLog(@"JBAudioEncoder initWithData");
+//    _isRunning = false;
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stop) name:JBStopNotification object:nil];
+    self.encoderQueue = dispatch_queue_create("encode audio queue jimbo", DISPATCH_QUEUE_SERIAL);
+    self.callbackQueue = dispatch_queue_create("encode audio callback queue jimbo", DISPATCH_QUEUE_SERIAL);
+    m_audioConverter = NULL;
+    self.pcmBufferSize = 0;
+    self.pcmBuffer = NULL;
+    self.isRunning = NO;
+    return  self;
 }
 
 - (void)setupConverter {
     
 //    AudioStreamBasicDescription inFormat = *CMAudioFormatDescriptionGetStreamBasicDescription(CMSampleBufferGetFormatDescription(sampleBuffer));
-    AudioStreamBasicDescription inFormat = self.configData.mASBD;
+    AudioStreamBasicDescription inFormat = [JBConfigData shareInstance].captureASBD;
     
     // 配置 输出 格式 ASBD
     AudioStreamBasicDescription destinationFormat;
@@ -94,7 +95,7 @@ void checkError(OSStatus status, NSString *logStr) {
     
 //    //输入格式，输出格式，一个AudioConverterRef指针。
 //    OSStatus status = AudioConverterNew(&inFormat, &destinationFormat, &m_audioConverter);
-    checkError(status, @"AudioConverterNew");
+    JBAssertNoError(status, @"AudioConverterNew");
     if (status != noErr) {
         return;
     }
@@ -103,11 +104,10 @@ void checkError(OSStatus status, NSString *logStr) {
 //    //channel 配置 貌似可以不设置
     m_ChannelLayout.mChannelLayoutTag = kAudioChannelLayoutTag_Stereo;
     m_ChannelLayout.mNumberChannelDescriptions  = 0;
-    status = AudioConverterSetProperty(m_audioConverter, kAudioConverterInputChannelLayout, sizeof(AudioChannelLayout), &m_ChannelLayout);
-    checkError(status, @"KAudioConverterInputChannelLayout");
+    JBAssertNoError(AudioConverterSetProperty(m_audioConverter, kAudioConverterInputChannelLayout, sizeof(AudioChannelLayout), &m_ChannelLayout), @"KAudioConverterInputChannelLayout");
 //
 //    status = AudioConverterSetProperty(m_audioConverter, kAudioConverterOutputChannelLayout, sizeof(AudioChannelLayout), &m_ChannelLayout);
-//    checkError(status, @"KAudioConverterOutputChannelLayout");
+//    JBAssertNoError(status, @"KAudioConverterOutputChannelLayout");
     
     
     //bitrate 配置
@@ -119,16 +119,16 @@ void checkError(OSStatus status, NSString *logStr) {
             outputBitRate = 32000;
         }
         status = AudioConverterSetProperty(m_audioConverter, kAudioConverterEncodeBitRate, sizeof(outputBitRate), &outputBitRate);
-        checkError(status, @"KAudioconverterEncodeBitRate");
+        JBAssertNoError(status, @"KAudioconverterEncodeBitRate");
     }
 //    UInt32 outputBitRate = 128000;
 //    status = AudioConverterSetProperty(m_audioConverter, kAudioConverterEncodeBitRate, sizeof(outputBitRate), &outputBitRate);
-//    checkError(status, @"KAudioconverterEncodeBitRate");
+//    JBAssertNoError(status, @"KAudioconverterEncodeBitRate");
     
     //编码质量， 低 到 max
     UInt32 tmp = kAudioConverterQuality_High;
     status = AudioConverterSetProperty(m_audioConverter, kAudioConverterCodecQuality, sizeof(tmp), &tmp);
-    checkError(status, @"kAudioConverterCodecQuality");
+    JBAssertNoError(status, @"kAudioConverterCodecQuality");
   
 }
 
@@ -137,7 +137,6 @@ void checkError(OSStatus status, NSString *logStr) {
     if (!m_audioConverter) {
         [self setupConverter];
     }
-    
 
     dispatch_async(self.encoderQueue, ^{
         //TODO:这种方法会在每次送入 buffer 的时候开辟空间。
@@ -163,7 +162,7 @@ void checkError(OSStatus status, NSString *logStr) {
                                                            &outputPacketDescriptions
                                                            );
         if (status != -1)
-            checkError(status, @"AudioConverterFillComplexBuffer");
+            JBAssertNoError(status, @"AudioConverterFillComplexBuffer");
         
         if (status == noErr) {
             
@@ -206,7 +205,7 @@ OSStatus MyAudioConverterCallback(AudioConverterRef inAudioConverter,
     ioData->mNumberBuffers = 1;
     ioData->mBuffers[0].mData = encoder.pcmBuffer;
     ioData->mBuffers[0].mDataByteSize = (uint32_t)encoder.pcmBufferSize;
-    ioData->mBuffers[0].mNumberChannels = (uint32_t)encoder.configData.mASBD.mChannelsPerFrame;
+    ioData->mBuffers[0].mNumberChannels = (uint32_t)encoder.outputFormat.mChannelsPerFrame;
     
     //填完数据后，清空数据
     encoder.pcmBufferSize = 0;
@@ -247,14 +246,12 @@ OSStatus MyAudioConverterCallback(AudioConverterRef inAudioConverter,
     return data;
 }
 
-- (void)dealloc {
-//    if (self.m_pOutputBuffer) {
-//        free(self.m_pOutputBuffer);
-//        self.m_pOutputBuffer = NULL;
-//    }
+- (void)stop {
     if (m_audioConverter) {
-        AudioConverterDispose(m_audioConverter);
+        //关闭和释放AudioConverter的资源
+        JBAssertNoError( AudioConverterDispose(m_audioConverter),@"AudioConverterFillComplexBuffer");
         m_audioConverter = NULL;
     }
+    self.isRunning = NO;
 }
 @end

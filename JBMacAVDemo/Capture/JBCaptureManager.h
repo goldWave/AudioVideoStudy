@@ -27,14 +27,12 @@ typedef struct JBCaptureOutData* JBCaptureOutDataRef;
 
 @property(nonatomic, weak) id<JBCaptureDelegate> delegate;
 
-@property (nonatomic, strong, nullable) JBConfigData *audioConfigData;
-@property (nonatomic, strong, nullable) JBConfigData *videoConfigData;
+@property(nonatomic, assign) JBCaptureType type;
+@property(nonatomic, weak) CALayer *parentLayer;
 
-- (instancetype)initWithType:(JBCaptureType)type parenLayerIfVideo:(CALayer * __nullable)parentLayer;
-- (instancetype)init UNAVAILABLE_ATTRIBUTE;
-- (void)prepare;
-- (void)startCapture;
-- (void)stopCapture;
+//- (instancetype)initWithType:(JBCaptureType)type parenLayerIfVideo:(CALayer * __nullable)parentLayer;
+//- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+- (void)start;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -20,8 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface JBAudioQueueCapture : NSObject
 + (instancetype)shareInstance;
-- (BOOL)startAudioCapture;
-- (void)stopAudioCapture;
+- (void)start;
 @property(nonatomic, weak) id<JBAudioQueueCaptureDelegate> delegate;
 
 @property (nonatomic, strong) JBConfigData *audioConfigData;

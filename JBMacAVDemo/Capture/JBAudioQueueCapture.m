@@ -120,11 +120,11 @@ void GetDefaultInputDeviceSampleRate(Float64 *normalSampleRate) {
     return instance;
 }
 
-
-- (void)setupData {
-    self.audioConfigData = [[JBConfigData alloc] init];
-    self.audioConfigData.type = JBCaptureTypeAudio;
-    [self configureAudioCaptureWithDurationSec:0.05];
+- (instancetype)init {
+    self = [super init];
+    _isRunning = false;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stop) name:JBStopNotification object:nil];
+    return  self;
 }
 
 - (BOOL)startAudioCapture {
@@ -133,7 +133,7 @@ void GetDefaultInputDeviceSampleRate(Float64 *normalSampleRate) {
         NSLog(@"Audio Recorder: Start recorder repeat");
         return NO;
     }
-    [self setupData];
+    [self configureAudioCaptureWithDurationSec:0.05];
     
     //启动audio queue , 第二个参数设置为NULL表示立即开始采集数据.
     OSStatus  status = AudioQueueStart(_mQueue, NULL);
@@ -296,7 +296,7 @@ int computeRecordBufferSize(const AudioStreamBasicDescription *format, AudioQueu
     dataFormat.mFramesPerPacket = 1;
     
     _mDataFormat = dataFormat;
-    self.audioConfigData.mASBD = _mDataFormat;
+    [JBConfigData shareInstance].captureASBD = _mDataFormat;
     NSLog(@"音频采集输出的音频格式");
     [JBFileManager  printASBD:_mDataFormat];
 }

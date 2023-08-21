@@ -16,8 +16,6 @@
 @property (nonatomic, assign) BOOL isRunning;
 @property (nonatomic, strong) NSMutableArray *commandLines;
 
-
-
 - (void)stopAllFile;
 
 - (void)writeAudioPCM:(CMSampleBufferRef)sampleBuffer;
